@@ -1,5 +1,11 @@
 package _06_Console_Store;
 
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
+import _02_Generics_Store.*;
+
 public class ConsoleStore {
 
     /*
@@ -37,7 +43,58 @@ public class ConsoleStore {
      */
 
     public static void main(String[] args) {
-
+    	Cart cart = new Cart();
+    	ArrayList<String> cartItems = new ArrayList<String>();
+    	ArrayList<Integer> costs = new ArrayList<Integer>();
+    	Scanner scan = new Scanner(System.in);
+    	String response;
+    	int money = new Random().nextInt(25-10) + 10;
+    	do {
+        	System.out.println("You have $" + money);
+    		System.out.println("Add something to your cart: candy: $1, cereal: $5, clothing: $10, toy: $5, type \"check out\" to exit the game, or type \"view cart\".");
+    		response = scan.nextLine();
+    		if (response.equals("candy")) {
+    			Candy candy = new Candy();
+    			money -= candy.cost;
+    			cartItems.add("Candy");
+    			costs.add(candy.cost);
+    			cart.add(candy);;
+    		} else if (response.equals("cereal")) {
+    			Cereal cereal = new Cereal();
+    			money -= cereal.cost;
+    			cartItems.add("Cereal");
+    			costs.add(cereal.cost);
+    			cart.add(cereal);
+    		} else if (response.equals("clothing")) {
+    			Clothing clothing = new Clothing();
+    			money -= clothing.cost;
+    			cartItems.add("Clothing");
+    			costs.add(clothing.cost);
+    			cart.add(clothing);
+    		} else if (response.equals("toy")) {
+    			Toy toy = new Toy();
+    			money -= toy.cost;
+    			cartItems.add("Toy");
+    			costs.add(toy.cost);
+    			cart.add(toy);
+    		} else if (response.equals("view cart")) {
+    			cart.showCart();
+    		}
+    	} while(!response.equals("check out"));
+    	
+    	if (money < 0) {
+    		System.out.println("You didn't have enough money!");
+    		System.exit(0);
+    	}
+    	String receipt = "Receipt:\n";
+    	int total = 0;
+    	for (int i = 0; i < cartItems.size(); i++) {
+    		receipt += cartItems.get(i) + ": $" + costs.get(i) + "\n";
+    		total += costs.get(i);
+    	}
+    	receipt += "\nTotal: $" + total + "\n"; 
+    	System.out.println(receipt);
+    	scan.close();
     }
 
 }
